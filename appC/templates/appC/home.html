@@ -1,0 +1,61 @@
+{% extends 'appC/base.html' %}
+
+{% block title %} Home Page {% endblock title %}
+
+{% block main_content %}
+
+<section class="container">
+    <div class="row justify-content-around text-center text-white mt-5">
+        <div class="col-sm-8">
+            <h3>CRUD Project In Python Using Django</h3>
+        </div>
+    </div>
+    <div class="row justify-content-around mt-3">
+        <div class="col-sm-8">
+            <a href="{% url 'add-student' %}" class="btn btn-primary float-end">Add</a>
+        </div>
+    </div>
+    <div class="row justify-content-around text-white mt-1">
+        <div class="col-sm-8">
+            <table class="table table-hover table-primary">
+              <thead>
+                <tr>
+                  <th scope="col">Sr.No.</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Roll</th>
+                  <th scope="col">City</th>
+                    <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for stud in studata %}
+                <tr>
+                  <th scope="row">{{forloop.counter}}</th>
+                  <td>{{stud.name}}</td>
+                  <td>{{stud.roll}}</td>
+                  <td>{{stud.city}}</td>
+                    <td class="aline-inline">
+                        <table>
+                            <tr>
+                                <td>
+                                    <form action="{% url 'delete-student' %}" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{stud.id}}">
+                                        <input type="submit" value="Delete" class="btn btn-danger btn-sm">
+                                    </form>
+                                </td>
+                                <td>
+                                    <a href="{% url 'edit-student' stud.id %}" class="btn btn-sm btn-primary">Edit</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+{% endblock main_content %}
